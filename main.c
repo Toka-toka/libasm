@@ -3,6 +3,7 @@
 #include "fcntl.h"
 #include "unistd.h"
 #include "errno.h"
+# include "stdlib.h"
 // nasm -f macho64 ft_strcmp.s ; gcc main.c *.o ; ./a.out
 
 char *ft_strcpy(char *dest, char *str);
@@ -13,6 +14,146 @@ char    *ft_strdup(const char *str);
 int    ft_strlen(const char *str);
 //int ft_summ(int i, int j);
 //int ft_strlen(char *str);
+
+void check_strcmp()
+{
+    char str1[100];
+    char str2[100];
+    int  res_1;
+    int  res_2;
+
+    res_1 = 0;
+    while (4 > res_1++)
+        printf("| --- | --- | --- | --- | --- |");
+    
+    printf("\n\nТестирование ft_strcmp\n");
+    printf("Для передачи пустой строки: ctrl + D\n");
+    printf("Возврата в предыдущее меню: exit\n\n");
+    res_1 = 0;
+    while (4 > res_1++) 
+        printf("| --- | --- | --- | --- | --- |");
+    while (1)
+    {
+        printf("\n\n");
+        printf("Введи строку, которая будет передана ft_strlen: ");
+        if(scanf("%s", str1) == -1)
+            str1[0] = '\0';
+        if(scanf("%s", str2) == -1)
+            str2[0] = '\0';        
+        if (str1[0] == 'e' && str1[1] == 'x' && str1[2] == 'i' && str1[3] == 't' && str1[4] == '\0')
+            break;
+        printf("\nРезультат работы ft_strcmp = | %d | ", (res_1 = strcmp(str1, str2)));
+        printf(" | %d | = Результат работы strcmp = \n", (res_2 = strcmp(str1, str2)));
+        if (res_1 == res_2)
+            printf("\n\n!!!       Тест пройден      !!!\n");
+        if (res_1 != res_2)
+            printf("\n\n!!!       Тест НЕ пройден   !!!!\n");
+    }           
+}
+
+void check_strcpy()
+{
+    char srt[100];
+    int  res_1;
+    int  res_2;
+
+    res_1 = 0;
+    while (4 > res_1++)
+        printf("| --- | --- | --- | --- | --- |");
+    
+    printf("\n\nТестирование ft_strlen\n");
+    printf("Для передачи пустой строки: ctrl + D\n");
+    printf("Возврата в предыдущее меню: exit\n\n");
+    res_1 = 0;
+    while (4 > res_1++) 
+        printf("| --- | --- | --- | --- | --- |");
+    while (1)
+    {
+        printf("\n\n");
+        printf("Введи строку, которая будет передана ft_strlen: ");
+        if(scanf("%s", srt) == -1)
+            srt[0] = '\0';
+        if (srt[0] == 'e' && srt[1] == 'x' && srt[2] == 'i' && srt[3] == 't' && srt[4] == '\0')
+            break;
+        printf("\nРезультат работы ft_strlen = | %d | ", (res_1 = strlen(srt)));
+        printf(" | %d | = Результат работы strlen = \n", (res_2 = strlen(srt)));
+        if (res_1 == res_2)
+            printf("\n\n!!!       Тест пройден      !!!\n");
+        if (res_1 != res_2)
+            printf("\n\n!!!       Тест НЕ пройден   !!!!\n");
+    }       
+}
+
+void check_strlen()
+{
+    char srt[100];
+    int  res_1;
+    int  res_2;
+
+    res_1 = 0;
+    while (4 > res_1++)
+        printf("| --- | --- | --- | --- | --- |");
+    
+    printf("\n\nТестирование ft_strlen\n");
+    printf("Для передачи пустой строки: ctrl + D\n");
+    printf("Возврата в предыдущее меню: exit\n\n");
+    res_1 = 0;
+    while (4 > res_1++)
+        printf("| --- | --- | --- | --- | --- |");
+    while (1)
+    {
+        printf("\n\n");
+        printf("Введи строку, которая будет передана ft_strlen: ");
+        if(scanf("%s", srt) == -1)
+            srt[0] = '\0';
+        if (srt[0] == 'e' && srt[1] == 'x' && srt[2] == 'i' && srt[3] == 't' && srt[4] == '\0')
+            break;
+        printf("\nРезультат работы ft_strlen = | %d | ", (res_1 = strlen(srt)));
+        printf(" | %d | = Результат работы strlen = \n", (res_2 = strlen(srt)));
+        if (res_1 == res_2)
+            printf("\n\n!!!       Тест пройден      !!!\n");
+        if (res_1 != res_2)
+            printf("\n\n!!!       Тест НЕ пройден   !!!!\n");
+    }
+}
+
+int main ()
+{
+    int answer;
+
+    printf("Привет!\n\n");
+    while (1)
+    {
+        printf("Для проверки функций данной библиотеки введи номер фунции\n\n");
+        printf("| ft_strlen | - | 1 |\n\n");
+        printf("| ft_strcpy | - | 2 |\n\n");
+        printf("| ft_strcmp | - | 3 |\n\n");
+        printf("|  ft_read  | - | 4 |\n\n");
+        printf("|  ft_write | - | 5 |\n\n");
+        printf("| ft_strdup | - | 6 |\n\n");
+        printf("|  Закрыть  | - | 0 |\n\n");
+        printf("Запустить проверку функции №: ");
+        scanf("%d", &answer);
+        if (answer == 0)
+            exit(0);
+        else if (answer == 1)
+            check_strlen();
+        else if (answer == 2)
+            check_strcpy();
+        else if (answer == 3)
+            check_strcmp();
+        else if (answer == 4)
+            printf("Check ft_read\n");
+        else if (answer == 5)
+            printf("Check ft_write\n");
+        else if (answer == 6)
+            printf("Check ft_strdup\n");
+        else
+            printf("Введи номер еще раз\n");
+    }
+}
+
+/*
 
 int main(void)
 {
@@ -99,4 +240,4 @@ int main(void)
     printf("Helllo! %s\n", newstr);
 
     return(0);
-}
+}*/
