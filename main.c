@@ -16,14 +16,9 @@ size_t ft_read(int fd, char *buff, size_t size);
 int    ft_write(int fd, char *buff, size_t size);
 char    *ft_strdup(const char *str);
 int    ft_strlen(const char *str);
-int    main ();
+void    test();
 
-char *g_1 = YELLOW;
-char *g_2 = YELLOW;
-char *g_3 = YELLOW;
-char *g_4 = YELLOW;
-char *g_5 = YELLOW;
-char *g_6 = YELLOW;
+char *g_status[7];
 
 void    print_end()
 {
@@ -31,14 +26,15 @@ void    print_end()
     int answer;
     int status;
     
+    status = -1;
     printf("%s", WHITE);
     printf("\nВведите 0 для выхода, любой другой символ для продолжения: ");
-    if ((status = scanf("%d", &answer)) == -1 || answer != 0)
-        main();
+    if ((scanf("%d", &answer)) == -1 || answer != 0 || status == -1)
+        test();
     exit(0);
 }
 
-void check_strdup()
+void check_strdup(int n)
 {
     char *src[6];
     char *temp;
@@ -67,16 +63,16 @@ void check_strdup()
         printf("%snew = \"%s\"\n", WHITE, (temp = ft_strdup(src[i])));
         if (strcmp(temp, src[i]) == 0)
             printf("%s|-OK-|\n\n", GREEN);
-        else printf("%s|-KO-|\n\n", g_6 = RED);
+        else printf("%s|-KO-|\n\n", g_status[n] = RED);
         i++;
         free(temp);
     }
-    if (strcmp(g_6, RED) != 0)
-        g_6 = GREEN;
+    if (strcmp(g_status[n], RED) != 0)
+        g_status[n] = GREEN;
     print_end();
 }
 
-void check_read()
+void check_read(int n)
 {
     int fd[4];
     char buff[9];
@@ -115,14 +111,14 @@ void check_read()
         i++;
         if (errno1 == errno2 && res_1 == res_2)
             printf("%s         |-OK-|\n", GREEN);
-        else printf("%s        |-KO-|\n", g_5 = RED);
+        else printf("%s        |-KO-|\n", g_status[n] = RED);
     }
-    if (strcmp(g_5, RED))
-        g_5 = GREEN;
+    if (strcmp(g_status[n], RED))
+        g_status[n] = GREEN;
     print_end();
 }
 
-void check_write()
+void check_write(int n)
 {
     int fd[4];
 
@@ -161,14 +157,14 @@ void check_write()
         i++;
         if (errno1 == errno2 && res_1 == res_2)
             printf("%s         |-OK-|\n", GREEN);
-        else printf("%s        |-KO-|\n", g_4 = RED);
+        else printf("%s        |-KO-|\n", g_status[n] = RED);
     }
-    if (strcmp(g_4, RED))
-        g_4 = GREEN;
+    if (strcmp(g_status[n], RED))
+        g_status[n] = GREEN;
     print_end();
 }
 
-void check_strcmp()
+void check_strcmp(int n)
 {
     char *str1[9];
     char *str2[9];
@@ -225,16 +221,16 @@ void check_strcmp()
         printf("%d = strcmp \n", res_2 = strcmp(str1[i], str2[i]));        
         if (res_1 == res_2)
             printf("%s|-OK-|\n\n", GREEN);
-        else printf("%s|-KO-|\n\n", g_3 = RED);
+        else printf("%s|-KO-|\n\n", g_status[n] = RED);
         i++;
     }
-    if (strcmp(g_2, RED) != 0)
-        g_3 = GREEN;
+    if (strcmp(g_status[n], RED) != 0)
+        g_status[n] = GREEN;
     print_end();
 }
 
 
-void check_strcpy()
+void check_strcpy(int n)
 {
     char dest[100];
     char *src[6];
@@ -264,15 +260,15 @@ void check_strcpy()
         printf("%sdest = \"%s\"\n", WHITE, (temp = ft_strcpy(dest, src[i])));
         if (strcmp(dest, src[i]) == 0)
             printf("%s|-OK-|\n\n", GREEN);
-        else printf("%s|-KO-|\n\n", g_2 = RED);
+        else printf("%s|-KO-|\n\n", g_status[n] = RED);
         i++;
     }
-    if (strcmp(g_2, RED) != 0)
-        g_2 = GREEN;
+    if (strcmp(g_status[n], RED) != 0)
+        g_status[n] = GREEN;
     print_end();
 }
 
-void check_strlen()
+void check_strlen(int n)
 {
     char *str[6];
     int  res_1;
@@ -304,17 +300,28 @@ void check_strlen()
         printf("%d = strlen \n", res_2 = strlen(str[i]));
         if (res_1 == res_2)
             printf("%s|-OK-|\n\n", GREEN);
-        else printf("%s|-KO-|\n\n", g_1 = RED);
+        else printf("%s|-KO-|\n\n", g_status[n] = RED);
         i++;
     }
-    if (strcmp(g_1, RED))
-        g_1 = GREEN;
+    if (strcmp(g_status[n], RED))
+        g_status[n] = GREEN;
     print_end();
 }
 
-int main ()
+void    test()
 {
     int answer;
+    int i = 1;
+    
+    g_status[0] = GREEN;
+    while (i < 7)
+    {
+        if (g_status[i] == RED)
+            g_status[0] = RED;
+        if (g_status[0] != RED && g_status[i] == YELLOW)
+            g_status[0] = YELLOW;
+        i++;
+    } 
 
     system("clear");
     printf("%s", YELLOW);
@@ -327,30 +334,42 @@ int main ()
     while (1)
     {
         printf("\nДля проверки функций данной библиотеки введи номер функции\n\n");
-        printf("| ft_strlen | - | %s1%s |\n\n", g_1, WHITE);
-        printf("| ft_strcpy | - | %s2%s |\n\n", g_2, WHITE);
-        printf("| ft_strcmp | - | %s3%s |\n\n", g_3, WHITE);
-        printf("|  ft_write | - | %s4%s |\n\n", g_4, WHITE);
-        printf("|  ft_read  | - | %s5%s |\n\n", g_5, WHITE);
-        printf("| ft_strdup | - | %s6%s |\n\n", g_6, WHITE);
-        printf("|  Закрыть  | - | %s0%s |\n\n", YELLOW, WHITE);
+        printf("| %s1%s | - | %sft_strlen%s |\n\n", g_status[1], WHITE, g_status[1], WHITE);
+        printf("| %s2%s | - | %sft_strcpy%s |\n\n", g_status[2], WHITE, g_status[2], WHITE);
+        printf("| %s3%s | - | %sft_strcmp%s |\n\n", g_status[3], WHITE, g_status[3], WHITE);
+        printf("| %s4%s | - | %sft_write%s  |\n\n", g_status[4], WHITE, g_status[4], WHITE);
+        printf("| %s5%s | - |  %sft_read%s  |\n\n", g_status[5], WHITE, g_status[5], WHITE);
+        printf("| %s6%s | - | %sft_strdup%s |\n\n", g_status[6], WHITE, g_status[6], WHITE);
+        printf("| %s0%s | - |  %sЗакрыть%s  |\n\n", g_status[0], WHITE, g_status[0], WHITE);
         printf("Запустить проверку функции №: ");
         scanf("%d", &answer);
         if (answer == 0)
             exit(0);
         else if (answer == 1)
-            check_strlen();
+            check_strlen(1);
         else if (answer == 2)
-            check_strcpy();
+            check_strcpy(2);
         else if (answer == 3)
-            check_strcmp();
+            check_strcmp(3);
         else if (answer == 4)
-            check_write();
+            check_write(4);
         else if (answer == 5)
-            check_read();
+            check_read(5);
         else if (answer == 6)
-            check_strdup();
+            check_strdup(6);
         else
             printf("Введи номер еще раз\n");
     }
+}
+
+int main ()
+{
+    g_status[0] = YELLOW;
+    g_status[1] = YELLOW;
+    g_status[2] = YELLOW;
+    g_status[3] = YELLOW;
+    g_status[4] = YELLOW;
+    g_status[5] = YELLOW;
+    g_status[6] = YELLOW;
+    test();
 }

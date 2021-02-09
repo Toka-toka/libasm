@@ -3,51 +3,41 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ncolomer <ncolomer@student.42.fr>          +#+  +:+       +#+         #
+#    By: sedric <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2019/11/15 14:54:43 by ncolomer          #+#    #+#              #
-#    Updated: 2019/11/17 21:22:43 by ncolomer         ###   ########.fr        #
+#    Created: 2021/02/09 17:29:46 by sedric            #+#    #+#              #
+#    Updated: 2021/02/09 23:56:10 by sedric           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-SRCS		=	ft_strlen.s ft_strcmp.s ft_strcpy.s ft_write.s ft_read.s ft_strdup.s
-OBJS		=	$(SRCS:.s=.o)
-BONUS_SRCS	=	ft_atoi_base_bonus.s ft_list_size_bonus.s ft_list_push_front_bonus.s \
-				ft_list_remove_if_bonus.s ft_list_sort_bonus.s
-BONUS_OBJS	=	$(BONUS_SRCS:.s=.o)
+NAME = libasm.a
 
-NA			=	nasm
-NA_FLAGS	=	-f macho64
-FLAGS 		=	-Wall -Werror -Wextra
-NAME		=	libasm.a
-TEST		=	test
-TEST_BONUS	=	test_bonus
+SRC = 	ft_strlen.s\
+		ft_strcmp.s\
+		ft_strcpy.s\
+		ft_write.s\
+		ft_read.s\
+		ft_strdup.s
 
-%.o:			%.s
-				$(NA) $(NA_FLAGS) $<
+OBJ = $(SRC:.s=.o)
 
-all:			$(NAME)
+%.o: %.s
+	nasm -f macho64 $<
 
-$(NAME):		$(OBJS)
-				ar rcs $(NAME) $(OBJS)
+all: $(NAME)
+
+$(NAME): $(OBJ)
+	ar rcs $(NAME) $(OBJ)
 
 clean:
-				rm -rf $(OBJS) $(BONUS_OBJS)
+	rm -f $(OBJ)
 
-fclean:			clean
-				rm -rf $(NAME) $(BONUS) $(TEST) $(TEST_BONUS)
+fclean: clean
+	rm -f $(NAME) test_main test test1
 
-re:				fclean $(NAME)
+re: fclean all
 
-test:			$(NAME)
-				gcc $(FLAGS) -L. -lasm -o $(TEST) main.c
-				./$(TEST) < Makefile
+test:	$(NAME)
+		gcc main.c $(NAME) -o test_main && ./test_main
 
-bonus:			$(OBJS) $(BONUS_OBJS)
-				ar rcs $(NAME) $(OBJS) $(BONUS_OBJS)
-
-test_bonus:		bonus
-				gcc $(FLAGS) -L. -lasm -o $(TEST_BONUS) main_bonus.c
-				./$(TEST_BONUS)
-
-.PHONY:			clean fclean re test bonus test_bonus
+.PHONY: all clean fclean re
