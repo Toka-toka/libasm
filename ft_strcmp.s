@@ -10,8 +10,7 @@ cmp:
             je    return                ; yes, go return                       
             cmp   al, BYTE[rsi + rdx]   ; temp1 == src ?
             jne   return                ; no, go return
-            inc   rdi                   ; dest++
-            inc   rsi                   ; src++
+            inc   rdx                   ; i++
             jmp   cmp                   ; go again
 return:
             mov     dl, BYTE[rsi + rdx] ; temp2 = src
