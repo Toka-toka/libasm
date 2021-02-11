@@ -15,7 +15,7 @@
 # Прототипы функций:
     int   ft_strlen(const char *str);
     char *ft_strcpy(char *dest, char *str);
-    int   ft_strcmp(char *str, char *new);
+    int   ft_strcmp(char *str1, char *str2);
     int   ft_write(int fd, char *buff, size_t size);
     int   ft_read(int fd, char *buff, size_t size);
     char *ft_strdup(const char *str);
